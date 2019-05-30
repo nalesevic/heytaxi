@@ -1,0 +1,164 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+  <h1 class="h3 mb-0 text-gray-800">Best rating drivers</h1>
+  <button id="find_ride_button" type="button" class="btn blue btn-outline" data-toggle="modal" data-target="#driverModal">
+  <i class="fas fa-search fa-sm text-white-50"></i> Find driver
+</button>
+
+</div>
+  <div id="drivers_container" class="row">
+</div>
+
+<div class="modal fade" id="driverModal" role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Find driver</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="driver_form" method="POST" action="#">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>First name</label>
+                  <input name="fname" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Last name</label>
+                  <input name="lname" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Vehicle</label>
+                  <input name="vehicle" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Company</label>
+                  <input name="company" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Rating</label>
+                  <input name="rating" type="number" class="form-control">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Find driver</button>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+</div>
+
+<table class="table" style="text-align:center;">
+  <thead>
+    <tr>
+      <th scope="col">First name</th>
+      <th scope="col">Last name</th>
+      <th scope="col">Vehicle</th>
+      <th scope="col">Company</th>
+      <th scope="col">Rating</th>
+    </tr>
+  </thead>
+  <tbody id="drivers_body">
+
+  </tbody>
+</table>
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+  <h1 class="h3 mb-0 text-gray-800">Popular vehicles</h1>
+  <button id="find_ride_button" type="button" class="btn blue btn-outline" data-toggle="modal" data-target="#vehicleModal">
+  <i class="fas fa-search fa-sm text-white-50"></i> Find vehicle
+</button>
+
+</div>
+  <div id="vehicles_container" class="row">
+</div>
+
+<div class="modal fade" id="vehicleModal" role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Find vehicle</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="driver_form" method="POST" action="#">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>Brand</label>
+                  <input name="brand" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Model</label>
+                  <input name="model" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label>Type</label>
+                  <input name="type" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Find vehicle</button>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid p-0">
+  <div class="row no-gutters">
+    <div class="col-lg-4 col-sm-6">
+      <a class="portfolio-box" href="assets/img/car.jpeg">
+        <img class="img-fluid" src="assets/img/car.jpeg" alt="" width="300px">
+        <div class="portfolio-box-caption">
+          <div class="project-category text-white-50">
+            Category
+          </div>
+          <div class="project-name">
+            Project Name
+          </div>
+          <div class="vehicle-rating">
+            Vehicle rating
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  function stars(rating) {
+    if(rating < 20)
+      return '<td><span class="fa fa-star "></span><span class="far fa-star"></span><span class="far fa-star"></span><span class="far fa-star"></span><span class="far fa-star"></span></td>'
+    else if(rating > 19 && rating < 40)
+      return '<td><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="far fa-star"></span><span class="far fa-star"></span><span class="far fa-star"></span></td>'
+    else if(rating > 39 && rating < 60)
+      return '<td><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="far fa-star "></span><span class="far fa-star"></span></td>'
+    else if(rating > 59 && rating < 80)
+    return '<td><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="far fa-star"></span></td>'
+    else if(rating > 79 && rating <= 100)
+      return '<td><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span></td>'
+  }
+
+  $.get("rest/drivers", function(data){
+    console.log("Heloo");
+
+    var html = '';
+    for(var i = 0 ; i < data.length; i++){
+      html += ' <tr> <td>'+data[i].firstName+'</td>';
+      html += '  <td>'+data[i].lastName+'</td>';
+      html += '  <td>'+data[i].vehicle+'</td>';
+      html += '  <td>'+data[i].company+'</td>';
+      html += stars(data[i].rating);
+    }
+
+      $('#drivers_body').html(html);
+    });
+</script>

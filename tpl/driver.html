@@ -1,0 +1,146 @@
+<h1>Company Drivers</h1>
+<button style="float:left;" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addDriver">Add Driver</button>
+<!-- Modal -->
+<div id="addDriver" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class='far fa-address-card' style='font-size:36px'></i>
+        <h4 class="modal-title" style="padding-left:10px;">Add Driver</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="driver_form" method="POST" action="rest/add_driver">
+          <div class="modal-body">
+            <div class="form-group">
+              <label>First name</label>
+              <input name="fname" id="fname" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Last name</label>
+              <input name="lname" id="lname" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Vehicle</label>
+              <input name="vehicle" id="vehicle" type="text" class="form-control">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Add Driver</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<table class="table table table-hover " >
+  <thead>
+    <tr>
+      <th scope="col">Driver ID</th>
+      <th scope="col">First name</th>
+      <th scope="col">Last name</th>
+      <th scope="col">Vehicle</th>
+      <th scope="col">Rating</th>
+    </tr>
+  </thead>
+  <tbody id="drivers_body">
+
+  </tbody>
+</table>
+
+<script type="text/javascript">
+  get_drivers();
+  $("#driver_form").validate({
+    submitHandler: function(form) {
+      //console.log(form);
+      // ajax
+      $.post('rest/add_driver', $('#driver_form').serialize(), function(added_driver){
+        $('#driver_form').trigger('reset');
+        get_drivers();
+        append_driver(added_driver);
+      });
+    }
+  });
+
+  function stars(rating) {
+    if(rating < 20)
+      return '<td><span class="fa fa-star "></span><span class="far fa-star"></span><span class="far fa-star"></span><span class="far fa-star"></span><span class="far fa-star"></span></td>'
+    else if(rating > 19 && rating < 40)
+      return '<td><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="far fa-star"></span><span class="far fa-star"></span><span class="far fa-star"></span></td>'
+    else if(rating > 39 && rating < 60)
+      return '<td><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="far fa-star "></span><span class="far fa-star"></span></td>'
+    else if(rating > 59 && rating < 80)
+    return '<td><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="far fa-star"></span></td>'
+    else if(rating > 79 && rating <= 100)
+      return '<td><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span></td>'
+  }
+
+  function get_drivers(){
+    // $.get("rest/drivers", function(data){
+    //
+    //   var html = '';
+    //   for(var i = 0 ; i < data.length; i++){
+    //     html += '<tr id="driver_'+data[i].driverID+'"><td>'+data[i].driverID+'</td>';
+    //     html += '  <td>'+data[i].firstName+'</td>';
+    //     html += '  <td>'+data[i].lastName+'</td>';
+    //     html += '  <td>'+data[i].vehicle+'</td>';
+    //     html += stars(data[i].rating);
+    //     html += '  <td><button onclick="delete_driver('+data[i].driverID+')" class="btn btn-danger">Delete</button></td></tr>';
+    //   }
+    //
+    //     $('#drivers_body').html(html);
+    //   });
+    $.ajax({
+      type: "GET",
+      url: "rest/drivers",
+      dataType: "json",
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader("Authorization",
+        window.localStorage.getItem("token")); //get token from localStorage andsend it in the header of the request
+      },
+      success: function(data) {
+        var html = '';
+        for(var i = 0 ; i < data.length; i++){
+          html += '<tr id="driver_'+data[i].driverID+'"><td>'+data[i].driverID+'</td>';
+          html += '  <td>'+data[i].firstName+'</td>';
+          html += '  <td>'+data[i].lastName+'</td>';
+          html += '  <td>'+data[i].vehicle+'</td>';
+          html += stars(data[i].rating);
+          html += '  <td><button onclick="delete_driver('+data[i].driverID+')" class="btn btn-danger">Delete</button></td></tr>';
+        }
+        $('#drivers_body').html(html);
+      }
+    });
+  }
+
+  function append_driver(data){
+    var html = '<tr id="driver_'+data[i].driverID+'"><td>'+data[i].driverID+'</td>';
+    html += '  <td>'+ data[i].firstName+'</td>';
+    html += '  <td>'+ data.vehicle+'</td>';
+    html += '  <td>'+ data.rating+'</td>';
+    html += stars(data.rating);
+    html += '  <td><button onclick="delete_driver('+data.driverID+')" class="btn btn-danger">Delete</button></td></tr>';
+
+    $('#drivers_body tr:last').after(html);
+    get_drivers();
+  }
+
+
+  function delete_driver(id){
+    if (confirm("Delete driver with id " + id + "?")){
+      $.ajax({url: "rest/driver/"+id, method: "DELETE" }).done(function( msg ) {
+        $('#driver_'+id).remove();
+        $('.table').DataTable().draw();
+        get_drivers();
+      }).fail(function( jqXHR, textStatus ) {
+        alert( "Request failed: " + textStatus );
+      });
+    }
+  }
+</script>
