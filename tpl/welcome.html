@@ -79,9 +79,13 @@
           method: "POST",
           data: $("#login_form").serialize(), //send data submitted by form
           success: function(data) {
-            var token = data.token.replace(/['"]+/g, ''); //remove “” from the token
-            window.localStorage.setItem('token', token);
-            window.location.href = "company.html";
+            //if(data.token) {
+              var token = data.token.replace(/['"]+/g, ''); //remove “” from the token
+              window.localStorage.setItem('token', token);
+              window.location.href = "company.html";
+            //} else {
+              //window.location.href = "index.html";
+            //}
           },
           error: function(response) {
           }

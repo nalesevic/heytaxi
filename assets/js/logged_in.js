@@ -10,6 +10,14 @@ $(document).ready(function() {
   app.route({view: 'ride', load: 'ride.html' });
   app.route({view: 'driver', load: 'driver.html' });
   app.route({view: 'vehicle', load: 'vehicle.html' });
+  app.route({
+      view: 'logout',
+      onCreate: function() {
+        window.localStorage.removeItem("token");
+        window.location.href = "index.html";
+      },
+    });
+
   // run app
   app.run();
 

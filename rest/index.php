@@ -23,20 +23,8 @@ Flight::route('POST /register', function(){
  });
 
 Flight::route('POST /login', function(){
-  // $request = Flight::request();
-  // $inputEmail = $request->data->companyEmail;
-  // $inputPassword = $request->data->companyPassword;
-  // $getPassword = Flight::pm()->get_company($inputEmail);
-  // $password = $getPassword['companyPassword'];
-  // if($password == $inputPassword && $inputPassword != false && $inputEmail != false){
-  //     Flight::json("Welcome");
-  //     header("Location: ../company.html");
-  // } else {
-  //     Flight::json("Error");
-  //     header("Location: ../index.html");
-  // }
   $data = Flight::request()->data->getData();
-  $user = Flight::pm()->get_user($data);
+  $user = Flight::pm()->get_company($data);
   if($user["status"] == "success") {
     unset($user["companyPassword"]);
     unset($user["status"]);
@@ -49,36 +37,52 @@ Flight::route('POST /login', function(){
     $user["token"] = $jwt;
     Flight::json($user);
   } else {
-      header("Location: ../index.html");
+      return;
     }
 });
 
+Flight::route('GET /all_drivers', function() {
+  $drivers = Flight::pm()->get_all_drivers();
+  Flight::json($drivers);
+});
+
 Flight::route('GET /drivers', function(){
-  $data = apache_request_headers(); //get requests
-  if(isset($data["Authorization"])) {
+  $data = apache_request_headers();
+  if(isset($data["Authorization"]) && $data["Authorization"] != "null") {
     $jwt = $data["Authorization"];
+  } else {
+    Flight::redirect('index.html');
+    return;
   }
   $decoded = JWT::decode($jwt, CONFIG::JWT_SECRET, array("HS256")); // decode jwt
   $decoded = json_decode(json_encode($decoded), true); // get json
   if(!isset($decoded['user']['companyID'])) {  // if there is no id of user (jwt is not valid) stop request
     echo "Invalid token";
-    die;
+    header("Location: ../index.html#welcome");
   } else {
-    $drivers = Flight::pm()->get_all_drivers();
+    $drivers = Flight::pm()->get_drivers($decoded["user"]["companyName"]);
     Flight::json($drivers);
   }
 },true);
 
 Flight::route('POST /add_driver', function(){
-  $request = Flight::request();
-  $driver = [
-    'firstName' => $request->data->fname,
-    'lastName' => $request->data->lname,
-    'vehicle' => $request->data->vehicle,
-  ];
-  Flight::pm()->add_driver($driver);
-  header("Location: ../company.html#driver");
-
+  $request = Flight::request()->data->getData();
+  $data = apache_request_headers();
+  if($data['Authorization'] != 'null') {
+    $jwt = $data["Authorization"];
+    $decoded = JWT::decode($jwt, CONFIG::JWT_SECRET, array("HS256"));
+    $decoded = json_decode(json_encode($decoded), true);
+    $companyName = $decoded['user']['companyName'];
+    $driver = [
+      'firstName' => $request['fname'],
+      'lastName' => $request['lname'],
+      'vehicle' => $request['vehicle'],
+      'company' => $companyName
+    ];
+    Flight::json($driver);
+    Flight::pm()->add_driver($driver);
+    header("Location: ../company.html#driver");
+  }
 });
 
 Flight::route('DELETE /driver/@id', function($id){

@@ -147,18 +147,21 @@
       return '<td><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span><span class="fa fa-star "></span></td>'
   }
 
-  $.get("rest/drivers", function(data){
-    console.log("Heloo");
-
-    var html = '';
-    for(var i = 0 ; i < data.length; i++){
-      html += ' <tr> <td>'+data[i].firstName+'</td>';
-      html += '  <td>'+data[i].lastName+'</td>';
-      html += '  <td>'+data[i].vehicle+'</td>';
-      html += '  <td>'+data[i].company+'</td>';
-      html += stars(data[i].rating);
-    }
-
+  $.ajax({
+    type: "GET",
+    url: "rest/all_drivers",
+    dataType: "json",
+    success: function(data) {
+      var html = '';
+      for(var i = 0 ; i < data.length; i++){
+        html += ' <tr> <td>'+data[i].firstName+'</td>';
+        html += '  <td>'+data[i].lastName+'</td>';
+        html += '  <td>'+data[i].vehicle+'</td>';
+        html += '  <td>'+data[i].company+'</td>';
+        html += stars(data[i].rating);
+      }
       $('#drivers_body').html(html);
-    });
+    }
+  })
+
 </script>

@@ -3,11 +3,13 @@
    License: none (public domain)
 */
 /*responsive*/
-@media only screen and (max-width: 800px) {
+/* @media only screen and (max-width: 800px) {
   .service {
   	width: 100%;
   }
-}
+} */
+
+
 
 @import url('https://fonts.googleapis.com/css?family=Numans');
 html, body, div, span, applet, object, iframe,
@@ -229,7 +231,7 @@ label.error {
 html { line-height: 1.5; font-family: sans-serif; font-weight: normal; color: rgba(0,0,0,0.87); }
 body { margin:0; }
 
-nav { height:60px; line-height:50px; background-color: rgba(0,0,0,0.4);background-size:cover; position:fixed; top:0; width: 100%;}
+nav { height:60px; line-height:50px; background-color: rgba(0,0,0,0.4);background-size:cover; position:fixed; top:0; width: 100%; z-index: 100;}
 nav ul li { display:block; float:left; width:150px; text-align:center; font-size: 20px; margin-top: 7px;} /*ADD NEW NAVIGATION */
 nav ul li a { color:white;}
 

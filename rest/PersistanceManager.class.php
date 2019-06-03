@@ -36,31 +36,31 @@ class PersistanceManager{
             (firstName,
              lastName,
              vehicle,
+             company,
              rating)
             VALUES (:firstName,
                     :lastName,
                     :vehicle,
+                    :company,
                     0)";
     $statement = $this->pdo->prepare($query);
     $statement->execute($driver);
     $driver['id'] = $this->pdo->lastInsertId();
   }
 
-  public function get_all_drivers(){
-    $query = "SELECT * FROM driver";
-    return $this->pdo->query($query)->fetchAll();
-  }
-
-  public function get_company($email){
-    $query = "SELECT companyPassword FROM company WHERE companyEmail=?";
+  public function get_drivers($companyName){
+    $query = "SELECT * FROM driver WHERE company = :companyName";
     $statement = $this->pdo->prepare($query);
-    $statement->execute([$email]);
-    $userPass = $statement->fetch();
-    return $userPass;
-    //return $this->pdo->query($query)->fetch();
+    $statement->execute(['companyName' => $companyName]);
+    $drivers = $statement->fetchAll();
+    return $drivers;
   }
 
-  public function get_user($user) {
+  public function get_all_drivers() {
+    return $this->pdo->query("SELECT * FROM driver ORDER BY rating DESC LIMIT 10")->fetchAll();
+  }
+
+  public function get_company($user) {
     $stmt = $this->pdo->prepare("SELECT * FROM company WHERE companyEmail = :email;");
     $stmt->execute(array(
     "email" => $user["companyEmail"],
@@ -78,8 +78,7 @@ class PersistanceManager{
   }
 
   public function count_all_drivers(){
-    $query = "SELECT count(*) as num_drivers FROM drivers";
-    return reset($this->pdo->query($query)->fetchAll());
+
   }
 
   public function get_driver_by_id($id){

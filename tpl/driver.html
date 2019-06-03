@@ -58,13 +58,18 @@
   get_drivers();
   $("#driver_form").validate({
     submitHandler: function(form) {
-      //console.log(form);
-      // ajax
-      $.post('rest/add_driver', $('#driver_form').serialize(), function(added_driver){
-        $('#driver_form').trigger('reset');
-        get_drivers();
-        append_driver(added_driver);
-      });
+      $.ajax({
+        type: "POST",
+        url: "rest/add_driver",
+        data: $("#driver_form").serialize(),
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader("Authorization",
+          window.localStorage.getItem("token")); //get token from localStorage andsend it in the header of the request
+        },
+        success: function(data) {
+          location.reload();
+        }
+      })
     }
   });
 
@@ -82,20 +87,6 @@
   }
 
   function get_drivers(){
-    // $.get("rest/drivers", function(data){
-    //
-    //   var html = '';
-    //   for(var i = 0 ; i < data.length; i++){
-    //     html += '<tr id="driver_'+data[i].driverID+'"><td>'+data[i].driverID+'</td>';
-    //     html += '  <td>'+data[i].firstName+'</td>';
-    //     html += '  <td>'+data[i].lastName+'</td>';
-    //     html += '  <td>'+data[i].vehicle+'</td>';
-    //     html += stars(data[i].rating);
-    //     html += '  <td><button onclick="delete_driver('+data[i].driverID+')" class="btn btn-danger">Delete</button></td></tr>';
-    //   }
-    //
-    //     $('#drivers_body').html(html);
-    //   });
     $.ajax({
       type: "GET",
       url: "rest/drivers",
@@ -105,6 +96,10 @@
         window.localStorage.getItem("token")); //get token from localStorage andsend it in the header of the request
       },
       success: function(data) {
+        console.log(data);
+        if (data.redirect) {
+           window.location.href = data.redirect;
+       }
         var html = '';
         for(var i = 0 ; i < data.length; i++){
           html += '<tr id="driver_'+data[i].driverID+'"><td>'+data[i].driverID+'</td>';
@@ -115,6 +110,9 @@
           html += '  <td><button onclick="delete_driver('+data[i].driverID+')" class="btn btn-danger">Delete</button></td></tr>';
         }
         $('#drivers_body').html(html);
+      },
+      error: function(jqXHR, statusText, errorThrown) {
+        window.location.href = "index.html";
       }
     });
   }
