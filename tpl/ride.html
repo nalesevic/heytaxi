@@ -1,0 +1,76 @@
+<div id="chart"></div>
+<div id="rank"></div>
+<script type="text/javascript">
+var drivers = [];
+var rides = [];
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+get_drivers();
+function get_drivers(){
+  $.ajax({
+    type: "GET",
+    url: "rest/drivers",
+    dataType: "json",
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader("Authorization",
+      window.localStorage.getItem("token"));
+    },
+    success: function(data) {
+      for(var i = 0 ; i < data.length; i++){
+        drivers.push([data[i]["driverID"], [data[i]["rating"]]]);
+      }
+      for (var i = 0; i < drivers.length; i++) {
+        get_rides(drivers[i][0])
+      }
+
+    },
+    error: function(jqXHR, statusText, errorThrown) {
+      window.location.href = "index.html";
+    }
+  });
+}
+
+function get_rides(id){
+  $.ajax({
+    type: "GET",
+    url: "rest/rides/" + id,
+    dataType: "json",
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader("Authorization",
+      window.localStorage.getItem("token"));
+    },
+    success: function(data) {
+      rides.push([id, data["sum"]])
+    },
+    error: function(jqXHR, statusText, errorThrown) {
+      window.location.href = "index.html";
+    }
+  });
+}
+
+
+// Draw the chart and set the chart values
+function drawChart() {
+  console.log(drivers);
+  var arr = [['Ride', 'Rides Per Driver']];
+  var rank = [['Rating', 'Rating Per Driver']];
+  for (var i = 0; i < rides.length; i++) {
+    arr.push([rides[i][0], Number(rides[i][1])]);
+  }
+  for (var i = 0; i < rides.length; i++) {
+    rank.push([drivers[i][0], Number(drivers[i][1])]);
+  }
+  var data = google.visualization.arrayToDataTable(arr);
+  var data2 = google.visualization.arrayToDataTable(rank);
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Number Of Rides Per Driver', 'width':750, 'height':400};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+  chart.draw(data, options);
+  var rank = new google.visualization.ColumnChart(document.getElementById('rank'));
+  rank.draw(data2, options);
+}
+</script>

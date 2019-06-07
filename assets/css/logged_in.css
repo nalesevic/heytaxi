@@ -96,7 +96,9 @@ nav ul li a { color:white;}
 main#spapp > section { padding:40px 50px 50px 50px;); }
 main#spapp > section#home { background:;
                             background-size:cover;}
-main#spapp > section#company {}
 main#spapp > section#driver {background-color: ; margin-left: 14%;}  /* padding = move text ... margin = move everything */
+main#spapp > section#vehicle {background-color: ; margin-left: 14%;}
+main#spapp > section#profile {background-color: ; margin-left: 14%;}
+main#spapp > section#ride {background-color: ; margin-left: 14%;}
 main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
 main#spapp h1 { font-size: 4.2rem; line-height: 110%; margin: 2.1rem 0 1.68rem 0; text-align:center; }

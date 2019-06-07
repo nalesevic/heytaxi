@@ -23,9 +23,10 @@
               <input name="lname" id="lname" type="text" class="form-control">
             </div>
             <div class="form-group">
-              <label>Vehicle</label>
+              <label>Vehicle ID</label>
               <input name="vehicle" id="vehicle" type="text" class="form-control">
             </div>
+            <p id="error"></p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -37,7 +38,46 @@
   </div>
 </div>
 
+<!-- update driver modal -->
+<div id="updateDriver" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class='far fa-address-card' style='font-size:36px'></i>
+        <h4 class="modal-title" style="padding-left:10px;">Update Driver</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="update_driver_form" method="POST" action="">
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Driver ID</label>
+              <input name="id" id="id" type="text" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+              <label>First name</label>
+              <input name="fname" id="fname" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Last name</label>
+              <input name="lname" id="lname" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Vehicle</label>
+              <input name="vehicle" id="vehicle" type="text" class="form-control">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" onclick="update_driver()">Update Driver</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <table class="table table table-hover " >
   <thead>
@@ -67,7 +107,11 @@
           window.localStorage.getItem("token")); //get token from localStorage andsend it in the header of the request
         },
         success: function(data) {
-          location.reload();
+          if(data == 1)
+            location.reload();
+          else {
+            $("#error").text("There is no vehicle with that ID");
+          }
         }
       })
     }
@@ -93,10 +137,9 @@
       dataType: "json",
       beforeSend: function(xhr) {
         xhr.setRequestHeader("Authorization",
-        window.localStorage.getItem("token")); //get token from localStorage andsend it in the header of the request
+        window.localStorage.getItem("token"));
       },
       success: function(data) {
-        console.log(data);
         if (data.redirect) {
            window.location.href = data.redirect;
        }
@@ -105,8 +148,9 @@
           html += '<tr id="driver_'+data[i].driverID+'"><td>'+data[i].driverID+'</td>';
           html += '  <td>'+data[i].firstName+'</td>';
           html += '  <td>'+data[i].lastName+'</td>';
-          html += '  <td>'+data[i].vehicle+'</td>';
+          html += '  <td>'+data[i].manufacturer+'</td>';
           html += stars(data[i].rating);
+          html += '  <td><button onclick="get_driver('+data[i].driverID+')" class="btn btn-warning" data-toggle="modal" data-target="#updateDriver">Edit</button></td>';
           html += '  <td><button onclick="delete_driver('+data[i].driverID+')" class="btn btn-danger">Delete</button></td></tr>';
         }
         $('#drivers_body').html(html);
@@ -117,22 +161,26 @@
     });
   }
 
-  function append_driver(data){
-    var html = '<tr id="driver_'+data[i].driverID+'"><td>'+data[i].driverID+'</td>';
-    html += '  <td>'+ data[i].firstName+'</td>';
-    html += '  <td>'+ data.vehicle+'</td>';
-    html += '  <td>'+ data.rating+'</td>';
-    html += stars(data.rating);
-    html += '  <td><button onclick="delete_driver('+data.driverID+')" class="btn btn-danger">Delete</button></td></tr>';
-
-    $('#drivers_body tr:last').after(html);
-    get_drivers();
+  function get_driver(id) {
+    $.ajax({
+      type: "GET",
+      dataType: "json",
+      url: "rest/driver/" + id,
+      success: function(data) {
+        $("#updateDriver #id").val(data.driverID);
+        $("#updateDriver #fname").val(data.firstName);
+        $("#updateDriver #lname").val(data.lastName);
+        $("#updateDriver #vehicle").val(data.vehicle);
+      }
+    })
   }
-
 
   function delete_driver(id){
     if (confirm("Delete driver with id " + id + "?")){
-      $.ajax({url: "rest/driver/"+id, method: "DELETE" }).done(function( msg ) {
+      $.ajax({
+        url: "rest/driver/"+id,
+        method: "DELETE"
+      }).done(function( msg ) {
         $('#driver_'+id).remove();
         $('.table').DataTable().draw();
         get_drivers();
@@ -140,5 +188,22 @@
         alert( "Request failed: " + textStatus );
       });
     }
+  }
+
+  function update_driver() {
+    var id = $("#updateDriver #id").val();
+    $("#update_driver_form").validate({
+      submitHandler: function(form) {
+        $.ajax({
+          url: "rest/driver/"+id,
+          type: "POST",
+          data: $("#update_driver_form").serialize(),
+          success: function(data) {
+            get_drivers();
+            location.reload();
+          }
+        })
+      }
+    });
   }
 </script>

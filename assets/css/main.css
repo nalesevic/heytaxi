@@ -238,7 +238,8 @@ nav ul li a { color:white;}
 main#spapp > section { padding:40px 50px 50px 50px;); }
 main#spapp > section#welcome { background: url("https://stmed.net/sites/default/files/taxi-wallpapers-32597-6593302.jpg") 0px; no-repeat;
                             background-size:cover;}
-main#spapp > section#company {}
-  main#spapp > section#register {background: url("https://backgroundcheckall.com/wp-content/uploads/2017/12/about-us-background-images-for-website-2.jpg");background-size:cover;}
+main#spapp > section#companies {background:url("https://c8.alamy.com/comp/B20074/nyc-yellow-taxi-cab-parked-on-the-street-of-queens-nyc-usa-B20074.jpg")}
+main#spapp > section#service {background:)}
+main#spapp > section#register{background: url("https://backgroundcheckall.com/wp-content/uploads/2017/12/about-us-background-images-for-website-2.jpg");background-size:cover;}
 main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
 main#spapp h1 { font-size: 4.2rem; line-height: 110%; margin: 2.1rem 0 1.68rem 0; text-align:center; }

@@ -1,0 +1,189 @@
+<h1>Company Vehicles</h1>
+<button style="float:left;" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addVehicle">Add Vehicle</button>
+<!-- Modal -->
+<div id="addVehicle" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class='far fa-address-card' style='font-size:36px'></i>
+        <h4 class="modal-title" style="padding-left:10px;">Add Vehicle</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="vehicle_form" method="POST" action="rest/add_vehicle">
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Manufacturer</label>
+              <input name="manufacturer" id="fname" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Model</label>
+              <input name="model" id="lname" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Year</label>
+              <input name="year" id="vehicle" type="number" class="form-control">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Add Vehicle</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- update vehicle modal -->
+<div id="updateVehicle" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class='far fa-address-card' style='font-size:36px'></i>
+        <h4 class="modal-title" style="padding-left:10px;">Update Vehicle</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="update_vehicle_form" method="POST" action="#vehicle">
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Vehicle ID</label>
+              <input name="id" id="id" type="text" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+              <label>Manufacturer</label>
+              <input name="manufacturer" id="manufacturer" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Model</label>
+              <input name="model" id="model" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Year</label>
+              <input name="year" id="year" type="number" class="form-control">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" onclick="update_vehicle()">Update Vehicle</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table table-hover" >
+  <thead>
+    <tr>
+      <th scope="col">Vehicle ID</th>
+      <th scope="col">Manufacturer</th>
+      <th scope="col">Model</th>
+      <th scope="col">Year</th>
+    </tr>
+  </thead>
+  <tbody id="vehicles_body">
+
+  </tbody>
+</table>
+</html>
+<script type="text/javascript">
+  get_vehicles();
+  $("#vehicle_form").validate({
+    submitHandler: function(form) {
+      $.ajax({
+        type: "POST",
+        url: "rest/add_vehicle",
+        data: $("#vehicle_form").serialize(),
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader("Authorization",
+          window.localStorage.getItem("token")); //get token from localStorage andsend it in the header of the request
+        },
+        success: function(data) {
+          location.reload();
+        }
+      })
+    }
+  });
+
+  function get_vehicles(){
+    $.ajax({
+      type: "GET",
+      url: "rest/vehicles",
+      dataType: "json",
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader("Authorization",
+        window.localStorage.getItem("token"));
+      },
+      success: function(data) {
+        if (data.redirect) {
+           window.location.href = data.redirect;
+       }
+        var html = '';
+        for(var i = 0 ; i < data.length; i++){
+          html += '<tr id="vehicle_'+data[i].vehicleID+'"><td>'+data[i].vehicleID+'</td>';
+          html += '  <td>'+data[i].manufacturer+'</td>';
+          html += '  <td>'+data[i].model+'</td>';
+          html += '  <td>'+data[i].year+'</td>';
+          html += '  <td><button onclick="get_vehicle('+data[i].vehicleID+')" class="btn btn-warning" data-toggle="modal" data-target="#updateVehicle">Edit</button></td>';
+          html += '  <td><button onclick="delete_vehicle('+data[i].vehicleID+')" class="btn btn-danger">Delete</button></td></tr>';
+        }
+        $('#vehicles_body').html(html);
+      },
+      error: function(jqXHR, statusText, errorThrown) {
+        console.log(errorThrown);
+      }
+    });
+  }
+
+  function get_vehicle(id) {
+    $.ajax({
+      type: "GET",
+      dataType: "json",
+      url: "rest/vehicle/" + id,
+      success: function(data) {
+        $("#updateVehicle #id").val(data.vehicleID);
+        $("#updateVehicle #manufacturer").val(data.manufacturer);
+        $("#updateVehicle #model").val(data.model);
+        $("#updateVehicle #year").val(data.year);
+      }
+    })
+  }
+
+  function update_vehicle() {
+    var id = $("#updateVehicle #id").val();
+    $("#update_vehicle_form").validate({
+      submitHandler: function(form) {
+        $.ajax({
+          url: "rest/vehicle/"+id,
+          type: "POST",
+          data: $("#update_vehicle_form").serialize(),
+          success: function(data) {
+            get_vehicles();
+            location.reload();
+          }
+        })
+      }
+    });
+  }
+
+  function delete_vehicle(id){
+    if (confirm("Delete vehicle with id " + id + "?")){
+      $.ajax({
+        url: "rest/vehicle/"+id,
+        method: "DELETE"
+      }).done(function( msg ) {
+        $('#vehicle_'+id).remove();
+        $('.table').DataTable().draw();
+        get_vehicles();
+      }).fail(function( jqXHR, textStatus ) {
+        alert( "Request failed: " + textStatus );
+      });
+    }
+  }
+</script>
