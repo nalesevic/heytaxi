@@ -3,13 +3,6 @@
    License: none (public domain)
 */
 
-/*responsive*/
-@media only screen and (max-width: 800px) {
-  .service {
-  	width: 100%;
-  }
-}
-
 @import url('https://fonts.googleapis.com/css?family=Numans');
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -87,18 +80,57 @@ nav a:hover{
 html { line-height: 1.5; font-family: sans-serif; font-weight: normal; color: rgba(0,0,0,0.87); }
 body { margin:0; }
 
-nav { height:100%; line-height:50px; background-color: #577284;background-size:cover; position:fixed; top:0%; width: 12%;}
-nav ul {margin-top: 20px; margin-left: 11%;}
-nav ul li { display:block; float:left; width:150px; text-align:left; font-size: 20px;} /*ADD NEW NAVIGATION */
+nav { height:100%; line-height:50px;background:#00acc1;background-size:cover; position:fixed; top:0%; width: 12%;}
+nav ul {margin-top: 20px; margin-left: 11%; height: 50%}
+nav ul li { margin-top: 50px; display:block; float:left; width:150px; text-align:left; font-size: 20px;  height: 20%} /*ADD NEW NAVIGATION */
 nav ul li a { color:white;}
 
 
 main#spapp > section { padding:40px 50px 50px 50px;); }
-main#spapp > section#home { background:;
-                            background-size:cover;}
 main#spapp > section#driver {background-color: ; margin-left: 14%;}  /* padding = move text ... margin = move everything */
 main#spapp > section#vehicle {background-color: ; margin-left: 14%;}
 main#spapp > section#profile {background-color: ; margin-left: 14%;}
 main#spapp > section#ride {background-color: ; margin-left: 14%;}
 main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
-main#spapp h1 { font-size: 4.2rem; line-height: 110%; margin: 2.1rem 0 1.68rem 0; text-align:center; }
+main#spapp h1 { font-size: 2rem; line-height: 110%; margin: 2.1rem 0 1.68rem 0; text-align:center; }
+
+/*responsive*/
+@media only screen and (max-width: 800px) {
+  nav { height:70px; line-height:50px; background:#00acc1;background-size:cover; position:fixed; top:0; width: 100%; z-index: 100;}
+  nav ul li { margin-left: -20px; display:block; float:left; width:85px; text-align:center; font-size: 5px; margin-top: 0px;} /*ADD NEW NAVIGATION */
+  nav ul li a { color:white;}
+
+  main#spapp > section#profile {
+    margin-left: -165px;
+  }
+  main#spapp > section#driver {
+    margin-left: -10px;
+  }
+  main#spapp > section#ride {
+    margin-left: -150px;
+  }
+  main#spapp > section#vehicle {
+    margin-left: -10px;
+  }
+
+  section h1 {
+    font-size: 19px;
+  }
+
+  table {
+    font-size: 10px;
+  }
+
+  nav span {
+    display: none;
+  }
+
+  .container {
+    font-size: 10px;
+  }
+
+  #chart {
+    width: 10px;
+  }
+
+}

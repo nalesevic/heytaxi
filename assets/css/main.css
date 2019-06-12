@@ -2,12 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-/*responsive*/
-/* @media only screen and (max-width: 800px) {
-  .service {
-  	width: 100%;
-  }
-} */
+
 
 
 
@@ -54,6 +49,7 @@ q:before, q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+  text-align: center;
 }
 
 #find_ride_button{
@@ -84,14 +80,8 @@ img {
   margin-right: 140px;
 }
 
-.drivers_using{
-  float: left;
-  text-align: center;
-}
-
-.rides_done{
-  float: right;
-  text-align: center;
+.smartphone img {
+  width: 280px;
 }
 
 footer{
@@ -115,20 +105,14 @@ footer{
   margin-right: 100px;
 }
 
-
-.drivers{
-}
-
 .logo{
   text-align: center;
 }
 
 .playstore_image{
   text-align: center;
-}
-
-.smartphone{
-
+  width: 30%;
+  margin-left: 300px;
 }
 
 nav a:hover{
@@ -227,6 +211,63 @@ label.error {
    display: block;
 }​
 
+.playstore_image img {
+  width: 200px;
+}
+
+.service-head {
+  font-size: 75px;
+  margin-top: 40px;
+  text-align: center;
+}
+
+.playstore_description h1 {
+  font-size: 85px;
+  text-align: center;
+}
+
+.playstore_description h2 {
+  font-size: 45px;
+  text-align: center;
+}
+
+.info {
+  text-align: center;
+}
+
+#curr {
+  margin-top: 20px;
+  font-size: 82px;
+  font-weight: 400;
+}
+
+.drivers_using {
+  float: left;
+}
+
+.rides_done {
+  float: right;
+}
+
+.drivers_using p {
+  font-size: 75px;
+  font-weight: 800;
+  font-family: monospace;
+}
+
+.drivers_using h2 {
+  margin-top: -30px
+}
+
+.rides_done h2 {
+  margin-top: -30px
+}
+
+.rides_done p {
+  font-size: 75px;
+  font-weight: 800;
+  font-family: monospace;
+}
 
 html { line-height: 1.5; font-family: sans-serif; font-weight: normal; color: rgba(0,0,0,0.87); }
 body { margin:0; }
@@ -242,4 +283,185 @@ main#spapp > section#companies {background:url("https://c8.alamy.com/comp/B20074
 main#spapp > section#service {background:)}
 main#spapp > section#register{background: url("https://backgroundcheckall.com/wp-content/uploads/2017/12/about-us-background-images-for-website-2.jpg");background-size:cover;}
 main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
-main#spapp h1 { font-size: 4.2rem; line-height: 110%; margin: 2.1rem 0 1.68rem 0; text-align:center; }
+
+/*responsive*/
+ @media only screen and (max-width: 800px) {
+  a:active {
+    font-size: 1px;
+  }
+  nav {
+  	width: 100%;
+  }
+
+  nav ul {
+    width: 430px;
+  }
+
+  nav ul li {
+    font-size: 12px;
+    width: 22%;
+  }
+  nav a:hover{
+    color: yellow;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .remember input {
+    margin-left: 25px;
+    margin-right: 5px
+  }
+  .card {
+    width: 30%;
+    margin-left: 70px;
+  }
+  .card-header{
+    margin-left: 50px;
+    width: 300px;
+  }
+  .card-body{
+    margin-left: 70px;
+    width: 300px;
+  }
+  .card-footer{
+    margin-left: 50px;
+    width: 300px;
+  }
+  .info {
+    margin-left: 0px;
+    width: 70%;
+  }
+  .info h1 {
+    font-size: 12px;
+  }
+
+  .drivers_using {
+    width: 300px;
+  }
+
+  .drivers_using h2{
+    font-size: 1px;
+    float: left;
+  }
+  .drivers_using p{
+    font-size:1px;
+    float: left;
+  }
+
+  .rides_done p {
+    font-size: 1px;
+    float: right;
+  }
+
+  .rides_done h2 {
+    font-size: 1px;
+    float: right;
+  }
+
+  .smartphone {
+    margin-right: 160px;
+    width: 100%;
+  }
+
+  .smartphone img {
+    width: 100px;
+    margin-left: 290px;
+    float: left;
+  }
+
+  .service-head {
+    font-size: 45px;
+    margin-top: 40px;
+  }
+
+  #curr {
+    font-size: 25px;
+    font-weight: 300;
+    margin-top: 100px;
+    margin-left: -20px;
+    width: 300px;
+  }
+
+  .drivers_using p {
+    font-size: 45px;
+    font-weight: 800;
+    font-family: monospace;
+  }
+
+  .drivers_using h2 {
+    margin-top: -30px;
+    font-size: 20px;
+    width: 180px;
+    margin-top: 10px;
+    float: right;
+  }
+
+  .rides_done h2 {
+    margin-top: -30px;
+    font-size: 20px;
+    width: 180px;
+    margin-right: -100px;
+    margin-left: 120px;
+    margin-top: 10px;
+  }
+
+  .rides_done p {
+    font-size: 45px;
+    font-weight: 800;
+    margin-right: -240px;
+    font-family: monospace;
+    float: left;
+  }
+
+  .playstore_description h1 {
+    font-size: 35px;
+    text-align: center;
+  }
+
+  .playstore_description h2 {
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .playstore_image {
+    width: 10px;
+  }
+
+  .playstore_image img{
+    margin-left: -330px;
+    width: 150px;
+  }
+
+  .download_app {
+    height: 350px;
+  }
+
+  footer {
+    height: 30px;
+  }
+
+  table {
+    font-size: 10px;
+  }
+
+  .card-img-top {
+    width: 300px;
+    height: 100px;
+  }
+
+  .card-deck .card {
+    width: 300px;
+    margin-left: -17px;
+  }
+
+  .card-deck .card-body {
+    margin-left: 0px;
+  }
+
+  main#spapp > section#companies {
+    height: 1280px;
+    background:url("https://c8.alamy.com/comp/B20074/nyc-yellow-taxi-cab-parked-on-the-street-of-queens-nyc-usa-B20074.jpg");
+    background-repeat: repeat;
+  }
+
+}
