@@ -232,6 +232,7 @@ label.error {
 }
 
 .info {
+  margin-top: 60px;
   text-align: center;
 }
 
@@ -459,9 +460,8 @@ main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
   }
 
   main#spapp > section#companies {
-    height: 1280px;
     background:url("https://c8.alamy.com/comp/B20074/nyc-yellow-taxi-cab-parked-on-the-street-of-queens-nyc-usa-B20074.jpg");
-    background-repeat: repeat;
+    background-repeat: repeat-y;
   }
 
 }

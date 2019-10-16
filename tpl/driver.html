@@ -1,5 +1,5 @@
 <h1>Company Drivers</h1>
-<button style="float:left;" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addDriver">Add Driver</button>
+<button style="float:left;" type="button" class="add_button" data-toggle="modal" data-target="#addDriver">Add Driver</button>
 <!-- Modal -->
 <div id="addDriver" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -150,8 +150,8 @@
           html += '  <td>'+data[i].lastName+'</td>';
           html += '  <td>'+data[i].manufacturer+'</td>';
           html += stars(data[i].rating);
-          html += '  <td><button onclick="get_driver('+data[i].driverID+')" class="btn btn-warning" data-toggle="modal" data-target="#updateDriver">Edit</button></td>';
-          html += '  <td><button onclick="delete_driver('+data[i].driverID+')" class="btn btn-danger">Delete</button></td></tr>';
+          html += '  <td><button onclick="get_driver('+data[i].driverID+')" class="edit_button" data-toggle="modal" data-target="#updateDriver">Edit</button></td>';
+          html += '  <td><button onclick="delete_driver('+data[i].driverID+')" class="delete_button">Delete</button></td></tr>';
         }
         $('#drivers_body').html(html);
       },

@@ -1,5 +1,9 @@
-<div id="chart"></div>
-<div id="rank"></div>
+<h1 style= "text-align=center">Statistics will be shown when data is entered</h1>
+<div class="stats">
+  <div id="chart" class="chart"></div>
+  <div id="rank" class="rank"></div>
+</div>
+
 <script type="text/javascript">
 var drivers = [];
 var rides = [];
@@ -54,8 +58,8 @@ function get_rides(id){
 // Draw the chart and set the chart values
 function drawChart() {
   console.log(drivers);
-  var arr = [['Ride', 'Rides Per Driver']];
-  var rank = [['Rating', 'Rating Per Driver']];
+  var arr = [['Ride', '']];
+  var rank = [['Rating', '']];
   for (var i = 0; i < rides.length; i++) {
     arr.push([rides[i][0], Number(rides[i][1])]);
   }
@@ -65,12 +69,12 @@ function drawChart() {
   var data = google.visualization.arrayToDataTable(arr);
   var data2 = google.visualization.arrayToDataTable(rank);
   // Optional; add a title and set the width and height of the chart
-  var options = {'title':'Number Of Rides Per Driver', 'width':750, 'height':400};
-
+  var chart_options = {'title':'Number Of Rides Per Driver', 'width':350, 'height':400};
+  var rank_options = {'title':'Driver Rankings', 'width':350, 'height':400};
   // Display the chart inside the <div> element with id="piechart"
   var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
-  chart.draw(data, options);
+  chart.draw(data, chart_options);
   var rank = new google.visualization.ColumnChart(document.getElementById('rank'));
-  rank.draw(data2, options);
+  rank.draw(data2, rank_options);
 }
 </script>

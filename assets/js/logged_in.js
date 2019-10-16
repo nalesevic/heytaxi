@@ -6,9 +6,9 @@ $(document).ready(function() {
 
   // define routes
 
+  app.route({view: 'vehicle', load: 'vehicle.html' });
   app.route({view: 'ride', load: 'ride.html' });
   app.route({view: 'driver', load: 'driver.html' });
-  app.route({view: 'vehicle', load: 'vehicle.html' });
   app.route({
       view: 'logout',
       onCreate: function() {

@@ -1,5 +1,5 @@
 <h1>Company Vehicles</h1>
-<button style="float:left;" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addVehicle">Add Vehicle</button>
+<button style="float:left;" type="button" class="add_button" data-toggle="modal" data-target="#addVehicle">Add Vehicle</button>
 <!-- Modal -->
 <div id="addVehicle" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -130,8 +130,8 @@
           html += '  <td>'+data[i].manufacturer+'</td>';
           html += '  <td>'+data[i].model+'</td>';
           html += '  <td>'+data[i].year+'</td>';
-          html += '  <td><button onclick="get_vehicle('+data[i].vehicleID+')" class="btn btn-warning" data-toggle="modal" data-target="#updateVehicle">Edit</button></td>';
-          html += '  <td><button onclick="delete_vehicle('+data[i].vehicleID+')" class="btn btn-danger">Delete</button></td></tr>';
+          html += '  <td><button onclick="get_vehicle('+data[i].vehicleID+')" class="edit_button" data-toggle="modal" data-target="#updateVehicle">Edit</button></td>';
+          html += '  <td><button onclick="delete_vehicle('+data[i].vehicleID+')" class="delete_button">Delete</button></td></tr>';
         }
         $('#vehicles_body').html(html);
       },
@@ -182,7 +182,7 @@
         $('.table').DataTable().draw();
         get_vehicles();
       }).fail(function( jqXHR, textStatus ) {
-        alert( "Request failed: " + textStatus );
+        alert( "Request failed: " + textStatus);
       });
     }
   }

@@ -57,6 +57,24 @@
 <hr>
 
 <script type="text/javascript">
+  function getCompanyInfo() {
+    $.ajax({
+      type: "GET",
+      dataType: "json",
+      url: "rest/company",
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader("Authorization",
+        window.localStorage.getItem("token"));
+      },
+      success: function(data) {
+        console.log(data);
+        $("#companyID").val(data.companyID);
+        $("#companyName").val(data.companyName);
+        $("#companyEmail").val(data.companyEmail);
+        $("#company-title").text(data.companyName);
+      }
+    })
+  }
   getCompanyInfo();
   function update_company() {
     var id = $("#companyID").val();
@@ -81,23 +99,6 @@
         })
       }
     });
-  }
-  function getCompanyInfo() {
-    $.ajax({
-      type: "GET",
-      dataType: "json",
-      url: "rest/company",
-      beforeSend: function(xhr) {
-        xhr.setRequestHeader("Authorization",
-        window.localStorage.getItem("token"));
-      },
-      success: function(data) {
-        $("#companyID").val(data.companyID);
-        $("#companyName").val(data.companyName);
-        $("#companyEmail").val(data.companyEmail);
-        $("#company-title").text(data.companyName);
-      }
-    })
   }
 
 </script>
