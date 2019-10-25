@@ -1,12 +1,12 @@
 (function($) {
- 
+
   $.spapp = function(options) {
 
     // set config and routes
     var config, routes = {};
 
     config = $.extend({
-      defaultView  : $("main#spapp > section:last-child").attr("id"),
+      defaultView  : '#welcome',
       templateDir  : './tpl/',
       pageNotFound : false
     }, options );
@@ -62,5 +62,5 @@
 
     return this;
   };
- 
+
 }(jQuery));
