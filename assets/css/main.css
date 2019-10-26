@@ -360,7 +360,7 @@ main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
   }
 
   .smartphone {
-    margin-right: 160px;
+    margin-right: 180px;
     width: 100%;
   }
 
@@ -425,12 +425,12 @@ main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
   }
 
   .playstore_image {
-    width: 10px;
+    width: 102px;
   }
 
   .playstore_image img{
     margin-left: -330px;
-    width: 150px;
+    width: 350px;
   }
 
   .download_app {
