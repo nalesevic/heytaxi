@@ -49,8 +49,8 @@ Flight::route('GET /all_drivers', function() {
 
 Flight::route('GET /drivers', function(){
   $data = apache_request_headers();
-  if(isset($data["authorization"]) && $data["authorization"] != "null") {
-    $jwt = $data["authorization"];
+  if(isset($data["Authorization"]) && $data["Authorization"] != "null") {
+    $jwt = $data["Authorization"];
   } else {
     Flight::redirect('index.html');
     return;
@@ -69,8 +69,8 @@ Flight::route('GET /drivers', function(){
 Flight::route('POST /add_driver', function(){
   $request = Flight::request()->data->getData();
   $data = apache_request_headers();
-  if($data['authorization'] != 'null') {
-    $jwt = $data["authorization"];
+  if($data['Authorization'] != 'null') {
+    $jwt = $data["Authorization"];
     $decoded = JWT::decode($jwt, CONFIG::JWT_SECRET, array("HS256"));
     $decoded = json_decode(json_encode($decoded), true);
     $companyID = $decoded['user']['companyID'];
@@ -102,8 +102,8 @@ Flight::route('DELETE /driver/@id', function($id){
 
 Flight::route('GET /vehicles', function(){
   $data = apache_request_headers();
-  if(isset($data["authorization"]) && $data["authorization"] != "null") {
-    $jwt = $data["authorization"];
+  if(isset($data["Authorization"]) && $data["Authorization"] != "null") {
+    $jwt = $data["Authorization"];
   } else {
     Flight::redirect('index.html');
     return;
@@ -122,8 +122,8 @@ Flight::route('GET /vehicles', function(){
 Flight::route('POST /add_vehicle', function(){
   $request = Flight::request()->data->getData();
   $data = apache_request_headers();
-  if($data['authorization'] != 'null') {
-    $jwt = $data["authorization"];
+  if($data['Authorization'] != 'null') {
+    $jwt = $data["Authorization"];
     $decoded = JWT::decode($jwt, CONFIG::JWT_SECRET, array("HS256"));
     $decoded = json_decode(json_encode($decoded), true);
     $companyID = $decoded['user']['companyID'];
@@ -159,8 +159,8 @@ Flight::route('/companies', function(){
 
 Flight::route('GET /company', function(){
   $data = apache_request_headers();
-  if(isset($data["authorization"]) && $data["authorization"] != "null") {
-    $jwt = $data["authorization"];
+  if(isset($data["Authorization"]) && $data["Authorization"] != "null") {
+    $jwt = $data["Authorization"];
   } else {
     Flight::redirect('company.html');
     return;
@@ -184,8 +184,8 @@ Flight::route('POST /companies/@id', function($id){
 
 Flight::route('GET /rides/@id', function($id){
   $data = apache_request_headers();
-  if(isset($data["authorization"]) && $data["authorization"] != "null") {
-    $jwt = $data["authorization"];
+  if(isset($data["Authorization"]) && $data["Authorization"] != "null") {
+    $jwt = $data["Authorization"];
   } else {
     Flight::redirect('index.html');
     return;

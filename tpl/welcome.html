@@ -82,7 +82,7 @@
             if(data.token != null) {
               var token = data.token.replace(/['"]+/g, ''); //remove “” from the token
               window.localStorage.setItem('token', token);
-              window.location.href = "company.html";
+              window.location.href = "company.html#profile";
             } else {
               $("#error").text("Wrong username or password");
             }
