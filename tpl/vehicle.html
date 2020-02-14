@@ -102,6 +102,7 @@
       <th scope="col">Manufacturer</th>
       <th scope="col">Model</th>
       <th scope="col">Year</th>
+      <th scope="col">Vehicle Type</th>
       <th scope="col"></th>
       <th scope="col"></th>
     </tr>
@@ -149,6 +150,7 @@
           html += '  <td>'+data[i].manufacturer+'</td>';
           html += '  <td>'+data[i].model+'</td>';
           html += '  <td>'+data[i].year+'</td>';
+          html += '  <td>'+data[i].vehicleType+'</td>';
           html += '  <td><button class="btn btn-outline-warning" onclick="get_vehicle('+data[i].vehicleID+')"  data-toggle="modal" data-target="#updateVehicle">Edit</button></td>';
           html += '  <td><button class="btn btn-outline-danger" onclick="delete_vehicle('+data[i].vehicleID+')" >Delete</button></td></tr>';
         }
@@ -170,6 +172,7 @@
         $("#updateVehicle #manufacturer").val(data.manufacturer);
         $("#updateVehicle #model").val(data.model);
         $("#updateVehicle #year").val(data.year);
+        $("#updateVehicle #vehicleType").val(data.vehicleType);
       }
     })
   }

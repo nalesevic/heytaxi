@@ -90,6 +90,8 @@ Flight::route('POST /add_driver', function(){
       'firstName' => $request['fname'],
       'lastName' => $request['lname'],
       'vehicleID' => $request['vehicleID'],
+      'email' => $request['email'],
+      'password' => $request['password'],
       'companyID' => $companyID
     ];
     $status = Flight::pm()->add_driver($driver);
@@ -162,10 +164,10 @@ Flight::route('POST /add_vehicle', function(){
       'manufacturer' => $request['manufacturer'],
       'model' => $request['model'],
       'year' => $request['year'],
-      'company' => $companyID
+      'company' => $companyID,
+      'vehicleType' => $request['vehicleType']
     ];
     Flight::pm()->add_vehicle($vehicle);
-    header("Location: ../company.html#driver");
   }
 });
 
@@ -204,6 +206,44 @@ Flight::route('GET /company', function(){
   } else {
     $company = Flight::pm()->get_company_byID($decoded["user"]["companyID"]);
     Flight::json($company);
+  }
+});
+
+Flight::route('GET /vehicle_count', function(){
+  $data = apache_request_headers();
+  if(isset($data["Authorization"]) && $data["Authorization"] != "null") {
+    $jwt = $data["Authorization"];
+  } else {
+    Flight::redirect('index.html');
+    return;
+  }
+  $decoded = JWT::decode($jwt, CONFIG::JWT_SECRET, array("HS256"));
+  $decoded = json_decode(json_encode($decoded), true);
+  if(!isset($decoded['user']['companyID'])) {
+    echo "Invalid token";
+    header("Location: ../index.html#welcome");
+  } else {
+    $vehicleNum = Flight::pm()->vehicle_count($decoded["user"]["companyID"]);
+    Flight::json($vehicleNum);
+  }
+});
+
+Flight::route('GET /driver_count', function(){
+  $data = apache_request_headers();
+  if(isset($data["Authorization"]) && $data["Authorization"] != "null") {
+    $jwt = $data["Authorization"];
+  } else {
+    Flight::redirect('index.html');
+    return;
+  }
+  $decoded = JWT::decode($jwt, CONFIG::JWT_SECRET, array("HS256"));
+  $decoded = json_decode(json_encode($decoded), true);
+  if(!isset($decoded['user']['companyID'])) {
+    echo "Invalid token";
+    header("Location: ../index.html#welcome");
+  } else {
+    $driverNum = Flight::pm()->driver_count($decoded["user"]["companyID"]);
+    Flight::json($driverNum);
   }
 });
 

@@ -41,11 +41,15 @@ class PersistanceManager{
               (firstName,
                lastName,
                rating,
+               email,
+               password,
                vehicleID,
                companyID)
               VALUES (:firstName,
                       :lastName,
                       50,
+                      :email,
+                      :password,
                       :vehicleID,
                       :companyID)";
       $statement = $this->pdo->prepare($query);
@@ -64,11 +68,15 @@ class PersistanceManager{
   }
 
   public function get_drivers($id){
-    return $this->pdo->query("SELECT driverID, firstName, lastName, rating, manufacturer, model from driver d JOIN vehicle v ON d.vehicleID = v.vehicleID")->fetchAll();
+    $query = "SELECT  driverID, firstName, lastName, rating, manufacturer, model FROM driver d JOIN vehicle v ON d.vehicleID = v.vehicleID WHERE d.companyID = ?";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([$id]);
+    $drivers = $statement->fetchAll();
+    return $drivers;
   }
 
   public function get_all_drivers() {
-    return $this->pdo->query("SELECT firstName, lastName, manufacturer, companyName, rating FROM driver d JOIN company as c ON company = companyID JOIN vehicle as v ON vehicleID = vehicleID ORDER BY rating DESC LIMIT 10")->fetchAll();
+    return $this->pdo->query("SELECT firstName, lastName, manufacturer, companyName, rating FROM driver d JOIN company as c ON d.companyID = c.companyID JOIN vehicle as v ON d.vehicleID = v.vehicleID ORDER BY rating DESC LIMIT 10")->fetchAll();
   }
 
   public function get_all_companies() {
@@ -79,8 +87,24 @@ class PersistanceManager{
 
   }
 
+  public function vehicle_count($id){
+    $query = "SELECT COUNT(*) as vehicleNum FROM vehicle WHERE companyID = :id";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute(['id' => $id]);
+    $num = $statement->fetch();
+    return $num;
+  }
+
+  public function driver_count($id){
+    $query = "SELECT COUNT(*) as driverNum FROM driver WHERE companyID = :id";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute(['id' => $id]);
+    $num = $statement->fetch();
+    return $num;
+  }
+
   public function get_driver($id){
-    $query = "SELECT driverID, firstName, lastName, vehicleID FROM driver WHERE driverID = :id";
+    $query = "SELECT driverID, firstName, lastName, vehicleID, email FROM driver WHERE driverID = :id";
     $statement = $this->pdo->prepare($query);
     $statement->execute(['id' => $id]);
     $driver = $statement->fetch();
@@ -91,9 +115,17 @@ class PersistanceManager{
     $firstName = $request["fname"];
     $lastName = $request["lname"];
     $vehicleID = $request["vehicleID"];
-    $query = "UPDATE driver SET firstName = :firstName, lastName = :lastName, vehicleID = :vehicleID WHERE driverID = :id";
-    $statement = $this->pdo->prepare($query);
-    $statement->execute(["id" => $id, "firstName" => $firstName, "lastName" => $lastName, "vehicleID" => $vehicleID]);
+    $email = $request["email"];
+    $password = $request["password"];
+    if ($password == "") {
+      $query = "UPDATE driver SET firstName = :firstName, lastName = :lastName, email = :email, vehicleID = :vehicleID WHERE driverID = :id";
+      $statement = $this->pdo->prepare($query);
+      $statement->execute(["id" => $id, "firstName" => $firstName, "lastName" => $lastName, "vehicleID" => $vehicleID, "email" => $email]);
+    } else {
+      $query = "UPDATE driver SET firstName = :firstName, lastName = :lastName, email = :email, password = :password, vehicleID = :vehicleID WHERE driverID = :id";
+      $statement = $this->pdo->prepare($query);
+      $statement->execute(["id" => $id, "firstName" => $firstName, "lastName" => $lastName, "vehicleID" => $vehicleID, "email" => $email, "password" => $password]);
+    }
   }
 
   public function delete_driver($id){
@@ -121,11 +153,13 @@ class PersistanceManager{
             (manufacturer,
              model,
              year,
+             vehicleType,
              available,
              companyID)
             VALUES (:manufacturer,
                     :model,
                     :year,
+                    :vehicleType,
                     1,
                     :company)";
     $statement = $this->pdo->prepare($query);
@@ -134,7 +168,7 @@ class PersistanceManager{
   }
 
   public function get_vehicles($id){
-    $query = "SELECT vehicleID, manufacturer, model, year FROM vehicle WHERE companyID = :id";
+    $query = "SELECT vehicleID, manufacturer, model, year, vehicleType FROM vehicle WHERE companyID = :id";
     $statement = $this->pdo->prepare($query);
     $statement->execute(['id' => $id]);
     $vehicles = $statement->fetchAll();
@@ -150,7 +184,7 @@ class PersistanceManager{
   }
 
   public function get_vehicle($id){
-    $query = "SELECT vehicleID, manufacturer, model, year FROM vehicle WHERE vehicleID = :id";
+    $query = "SELECT vehicleID, manufacturer, model, year, vehicleType FROM vehicle WHERE vehicleID = :id";
     $statement = $this->pdo->prepare($query);
     $statement->execute(['id' => $id]);
     $vehicle = $statement->fetch();
@@ -161,9 +195,10 @@ class PersistanceManager{
     $manufacturer = $request["manufacturer"];
     $model = $request["model"];
     $year = $request["year"];
-    $query = "UPDATE vehicle SET manufacturer = :manufacturer, model = :model, year = :year WHERE vehicleID = :id";
+    $vehicleType = $request["vehicleType"];
+    $query = "UPDATE vehicle SET manufacturer = :manufacturer, model = :model, year = :year, vehicleType = :vehicleType WHERE vehicleID = :id";
     $statement = $this->pdo->prepare($query);
-    $statement->execute(["id" => $id, "manufacturer" => $manufacturer, "model" => $model, "year" => $year]);
+    $statement->execute(["id" => $id, "manufacturer" => $manufacturer, "model" => $model, "year" => $year, "vehicleType" => $vehicleType]);
   }
 
   public function delete_vehicle($id){
@@ -232,9 +267,9 @@ class PersistanceManager{
       $statement->execute(["id" => $id, "companyName" => $companyName, "companyEmail" => $companyEmail, "description" => $description]);
     } else {
       $companyPassword = $request["companyPassword"];
-      $query = "UPDATE company SET companyName = :companyName, companyEmail = :companyEmail, companyPassword = :companyPassword WHERE companyID = :id";
+      $query = "UPDATE company SET companyName = :companyName, companyEmail = :companyEmail,description = :description, companyPassword = :companyPassword WHERE companyID = :id";
       $statement = $this->pdo->prepare($query);
-      $statement->execute(["id" => $id, "companyName" => $companyName, "companyEmail" => $companyEmail, "companyPassword" => $companyPassword]);
+      $statement->execute(["id" => $id, "companyName" => $companyName, "companyEmail" => $companyEmail, "companyPassword" => $companyPassword, "description" => $description]);
     }
   }
 

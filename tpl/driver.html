@@ -1,4 +1,4 @@
-getAvailableVehicles<h1 style="font-size: 2.9rem; color:#d9b23f">Drivers</h1>
+<h1 style="font-size: 2.9rem; color:#d9b23f">Drivers</h1>
 <button style="float:left;" type="button" onClick="getAvailableVehicles()" class="btn btn-outline-success" data-toggle="modal" data-target="#addDriver">Add Driver</button>
 <!-- Modal -->
 <div id="addDriver" class="modal fade" role="dialog">
@@ -20,6 +20,14 @@ getAvailableVehicles<h1 style="font-size: 2.9rem; color:#d9b23f">Drivers</h1>
             <div class="form-group">
               <label>Last name</label>
               <input name="lname" id="lname" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input name="email" id="email" type="email" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input name="password" id="password" type="password" class="form-control">
             </div>
             <div class="form-group">
               <label>Vehicle ID</label>
@@ -63,6 +71,14 @@ getAvailableVehicles<h1 style="font-size: 2.9rem; color:#d9b23f">Drivers</h1>
             <div class="form-group">
               <label>Last name</label>
               <input name="lname" id="lname" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input name="email" id="email" type="email" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input name="password" id="password" type="password" class="form-control">
             </div>
             <div class="form-group">
               <label>Vehicle ID</label>
@@ -112,8 +128,6 @@ getAvailableVehicles<h1 style="font-size: 2.9rem; color:#d9b23f">Drivers</h1>
       },
       success: function(data) {
         $('#vehicleID').html("");
-        $("#updateDriver #vehicleID").html("");
-        console.log(data);
         if (data.length == 0) {
           $("#error").text("Please add more vehicles");
           $("#updateDriver #error").text("Please add more vehicles");
@@ -191,7 +205,7 @@ getAvailableVehicles<h1 style="font-size: 2.9rem; color:#d9b23f">Drivers</h1>
   }
 
   function get_driver(id) {
-    getAvailableVehicles();
+    $("#updateDriver #vehicleID").html("");
     $.ajax({
       type: "GET",
       dataType: "json",
@@ -200,7 +214,25 @@ getAvailableVehicles<h1 style="font-size: 2.9rem; color:#d9b23f">Drivers</h1>
         $("#updateDriver #id").val(data.driverID);
         $("#updateDriver #fname").val(data.firstName);
         $("#updateDriver #lname").val(data.lastName);
+        $("#updateDriver #email").val(data.email);
         $("#updateDriver #vehicleID").val(data.vehicleID);
+      }
+    })
+    $.ajax({
+      type: "GET",
+      url: "rest/available_vehicles",
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader("Authorization",
+        window.localStorage.getItem("token")); //get token from localStorage andsend it in the header of the request
+      },
+      success: function(data) {
+        if (data.length == 0) {
+          $("#updateDriver #error").text("Please add more vehicles");
+        } else {
+          for (let i = 0; i < data.length; i ++) {
+            $("#updateDriver #vehicleID").append(new Option(data[i].vehicleID, data[i].vehicleID));
+          }
+        }
       }
     })
   }

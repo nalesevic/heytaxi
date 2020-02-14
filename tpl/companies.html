@@ -15,6 +15,8 @@
           success: function (data) {
             html = "";
             for (let i = 0; i < data.length; i++) {
+              if (data[i].description == null)
+                data[i].description = "";
               html += '<div class="card" style="width: 18rem;margin-top:20px;"><div class="card-body">'
               html += '<h5 class="card-title" style="color:#d9b23f;  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; text-align:center">'+data[i].companyName+'</h5></div>'
               html += '<ul class="list-group list-group-flush"><li class="list-group-item" style="color:white" >'+data[i].description+'</li>'

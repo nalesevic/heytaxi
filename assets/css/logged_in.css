@@ -41,6 +41,7 @@ label {
   color:#d9b23f;'
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   backface-visibility: hidden;
+  font-weight: bold;
 }
 
 ol, ul {
@@ -78,6 +79,10 @@ table td {
   font-weight: bolder;
   font-size: large;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+option {
+  background: rgb(0,0,0) !important;
 }
 
 #info {
@@ -167,6 +172,46 @@ nav a:hover{
 
 }
 
+.stats {
+  margin-top: 50px;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.barChart {
+  float: left;
+}
+
+.pieChart {
+  float: right;
+}
+
+.form-control {
+    color: white !important;
+    font-weight: 500;
+}
+
+.col-lg-10 input, .col-md-8 input {
+  width: 300px !important;
+}
+
+.control-label {
+  width: 100% !important;
+}
+
+.personal-info {
+  float: left;
+}
+
+.change-password {
+  float:right;
+}
+
+input, textarea, select {
+    background: rgba(0, 0, 0, 0) !important;
+    outline: inherit
+}
+
 html { line-height: 1.5; font-family: sans-serif; font-weight: normal; color: rgba(0,0,0,0.87); }
 body { margin:0; }
 
@@ -174,7 +219,7 @@ nav { height:100%; line-height:50px;background: rgba(105, 101, 92, 0.2) 0px;;bac
 nav ul {margin-top: 2px; margin-left: 11%; height: 20%}
 nav ul li { margin-top: 50px; display:block; float:left; width:150px; text-align:left; font-size: 20px;  height: 20%} /*ADD NEW NAVIGATION */
 nav ul li a { color:white;}
-
+nav ul li a:hover { color:#d9b23f;}
 
 main#spapp > section { padding:40px 50px 50px 50px; }
 main#spapp > section#driver {background-color: ; margin-left: 14%;}  /* padding = move text ... margin = move everything */

@@ -3,59 +3,65 @@
   	<hr>
 	<div class="row">
       <!-- edit form column -->
-      <div class="col-md-9 personal-info">
+      <div style="width:80%">
         <div class="alert alert-secondary alert-dismissable">
           <a class="panel-close close" data-dismiss="alert">×</a>
           <i class="far fa-lightbulb"></i>
-          Make sure to click <strong>Save Changes</strong> after you finish
+          Make sure to <strong>Save Changes</strong> after you finish
         </div>
-        <h3 style="color:#d9b23f">Personal info</h3>
-
         <form id="update-company-form" class="form-horizontal" action="" method="POST">
+
+        <div class="personal-info">
+          <h3 style="color:#d9b23f">Personal info</h3>
+
           <div class="form-group">
-            <label class="col-lg-3 control-label">Company ID:</label>
-            <div class="col-lg-8">
+            <label class="col-lg-8 control-label">Company ID:</label>
+            <div class="col-lg-10">
               <input id="companyID" class="form-control" type="text" readonly>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-3 control-label">Company Name:</label>
-            <div class="col-lg-8">
+            <label class="col-lg-8 control-label">Company Name:</label>
+            <div class="col-lg-10">
               <input id="companyName" name="companyName" class="form-control" type="text">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-3 control-label">Company E-mail:</label>
-            <div class="col-lg-8">
+            <label class="col-lg-8 control-label">Company E-mail:</label>
+            <div class="col-lg-10">
               <input id="companyEmail" name="companyEmail" class="form-control" type="email">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-3 control-label">Company Description:</label>
-            <div class="col-lg-8">
+            <label class="col-lg-12 control-label">Company Description:</label>
+            <div class="col-lg-12">
               <textarea type="text" id="description" name="description" rows="3" class="form-control md-textarea"></textarea>
             </div>
           </div>
-          <br>
+        </div>
+        <span>
+        <div class="change-password">
           <h3 style="color:#d9b23f">Change Password</h3>
           <div class="form-group">
-            <label class="col-md-3 control-label">New Password:</label>
+            <label class="col-md-8 control-label">New Password:</label>
             <div class="col-md-8">
               <input id="companyPassword" name="companyPassword" class="form-control" type="password">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Confirm password:</label>
+            <label class="col-md-8 control-label">Confirm password:</label>
             <div class="col-md-8">
               <input id="companyRPassword" name="companyRPassword" class="form-control" type="password">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label"></label>
-            <div class="col-md-8">
-              <button onclick="update_company()" type="submit" class="btn btn-outline-primary"> Save Changes</button>
+            <label class="col-md-8 control-label"></label>
+            <div class="col-md-12">
+              <button onclick="update_company()" type="submit" class="btn btn-outline-primary" style="margin-top:140px; margin-left: 150px; width: 150px;"> Save Changes</button>
             </div>
           </div>
+        </div>
+        </span>
         </form>
       </div>
   </div>
