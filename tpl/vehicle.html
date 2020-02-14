@@ -1,13 +1,12 @@
-<h1>Company Vehicles</h1>
-<button style="float:left;" type="button" class="add_button" data-toggle="modal" data-target="#addVehicle">Add Vehicle</button>
+<h1 style="font-size: 2.9rem; color:#d9b23f">Vehicles</h1>
+<button style="float:left;" type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#addVehicle">Add Vehicle</button>
 <!-- Modal -->
 <div id="addVehicle" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <i class='far fa-address-card' style='font-size:36px'></i>
+        <i class='far fa-address-card' style='font-size:36px;'></i>
         <h4 class="modal-title" style="padding-left:10px;">Add Vehicle</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
@@ -26,10 +25,19 @@
               <label>Year</label>
               <input name="year" id="vehicle" type="number" class="form-control">
             </div>
+            <div class="form-group">
+              <label>Vehicle type</label>
+              <select id="vehicleType" name="vehicleType" class="form-control">
+                <option value="sedan">Sedan</option>
+                <option value="suv">SUV</option>
+                <option value="hatchback">Hatchback</option>
+                <option value="minivan">Minivan</option>
+              </select>
+            </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Add Vehicle</button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-outline-primary">Add Vehicle</button>
           </div>
         </form>
       </div>
@@ -67,10 +75,19 @@
               <label>Year</label>
               <input name="year" id="year" type="number" class="form-control">
             </div>
+            <div class="form-group">
+              <label>Vehicle type</label>
+              <select id="vehicleType" name="vehicleType" class="form-control">
+                <option value="sedan">Sedan</option>
+                <option value="suv">SUV</option>
+                <option value="hatchback">Hatchback</option>
+                <option value="minivan">Minivan</option>
+              </select>
+            </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" onclick="update_vehicle()">Update Vehicle</button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-outline-primary" onclick="update_vehicle()">Update Vehicle</button>
           </div>
         </form>
       </div>
@@ -85,6 +102,8 @@
       <th scope="col">Manufacturer</th>
       <th scope="col">Model</th>
       <th scope="col">Year</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody id="vehicles_body">
@@ -130,8 +149,8 @@
           html += '  <td>'+data[i].manufacturer+'</td>';
           html += '  <td>'+data[i].model+'</td>';
           html += '  <td>'+data[i].year+'</td>';
-          html += '  <td><button onclick="get_vehicle('+data[i].vehicleID+')" class="edit_button" data-toggle="modal" data-target="#updateVehicle">Edit</button></td>';
-          html += '  <td><button onclick="delete_vehicle('+data[i].vehicleID+')" class="delete_button">Delete</button></td></tr>';
+          html += '  <td><button class="btn btn-outline-warning" onclick="get_vehicle('+data[i].vehicleID+')"  data-toggle="modal" data-target="#updateVehicle">Edit</button></td>';
+          html += '  <td><button class="btn btn-outline-danger" onclick="delete_vehicle('+data[i].vehicleID+')" >Delete</button></td></tr>';
         }
         $('#vehicles_body').html(html);
       },
@@ -178,9 +197,13 @@
         url: "rest/vehicle/"+id,
         method: "DELETE"
       }).done(function( msg ) {
-        $('#vehicle_'+id).remove();
-        $('.table').DataTable().draw();
-        get_vehicles();
+        if (msg == 0) {
+          $('#vehicle_'+id).remove();
+          $('.table').DataTable().draw();
+          get_vehicles();
+        } else {
+          alert("Vehicle is in use");
+        }
       }).fail(function( jqXHR, textStatus ) {
         alert( "Request failed: " + textStatus);
       });

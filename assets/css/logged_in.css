@@ -31,7 +31,18 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
   line-height: 1;
+  background: url('../img/bckgrnd.jpg') 0px;
+  background-size:cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
+
+label {
+  color:#d9b23f;'
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  backface-visibility: hidden;
+}
+
 ol, ul {
   list-style: none;
 }
@@ -48,8 +59,45 @@ table {
   border-spacing: 0;
 }
 
-.table{
+table thead {
+  color: white;
+}
+
+table th {
+  font-size: 18px;
+  color: white;
+}
+
+table tr {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.2) 20px 20px 20px;
+}
+
+table td {
+  color: white;
+  font-weight: bolder;
+  font-size: large;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#info {
+  color: white;
+  font-weight: bolder;
+  font-size: large;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
   margin-top: 100px;
+  width: 80%;
+}
+
+.modal-content {
+  color:#d9b23f;
+  opacity: 0.8;
+  background-color: black !important;
 }
 
 #find_ride_button{
@@ -86,6 +134,7 @@ nav a:hover{
    display: inline-block;
    font-size: 24px;
    border-radius: 8px;
+   font-weight: bolder;
 }
 
 .edit_button {
@@ -98,6 +147,9 @@ nav a:hover{
   display: inline-block;
   font-size: 18px;
   border-radius: 4px;
+  font-weight: bolder;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
 }
 
 .delete_button {
@@ -109,25 +161,40 @@ nav a:hover{
   text-decoration: none;
   display: inline-block;
   font-size: 18px;
+  font-weight: bolder;
   border-radius: 4px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
 }
 
 html { line-height: 1.5; font-family: sans-serif; font-weight: normal; color: rgba(0,0,0,0.87); }
 body { margin:0; }
 
-nav { height:100%; line-height:50px;background:#00acc1;background-size:cover; position:fixed; top:0%; width: 12%;}
-nav ul {margin-top: 20px; margin-left: 11%; height: 50%}
+nav { height:100%; line-height:50px;background: rgba(105, 101, 92, 0.2) 0px;;background-size:cover; position:fixed; top:0%; width: 12%;}
+nav ul {margin-top: 2px; margin-left: 11%; height: 20%}
 nav ul li { margin-top: 50px; display:block; float:left; width:150px; text-align:left; font-size: 20px;  height: 20%} /*ADD NEW NAVIGATION */
 nav ul li a { color:white;}
 
 
-main#spapp > section { padding:40px 50px 50px 50px;); }
+main#spapp > section { padding:40px 50px 50px 50px; }
 main#spapp > section#driver {background-color: ; margin-left: 14%;}  /* padding = move text ... margin = move everything */
 main#spapp > section#vehicle {background-color: ; margin-left: 14%;}
 main#spapp > section#profile {background-color: ; margin-left: 14%;}
 main#spapp > section#ride {background-color: ; margin-left: 14%;}
 main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
-main#spapp h1 { font-size: 2rem; line-height: 110%; margin: 2.1rem 0 1.68rem 0; text-align:center; }
+main#spapp h1 {   font-size: 4rem;
+  color: white;
+  text-align: center;
+  font-weight: bolder; text-align:center;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+ }
+
+ main#spapp h3 {
+   font-size: 1.5rem;
+   color: white;
+   font-weight: bolder;
+   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  }
 
 /*responsive*/
 @media only screen and (max-width: 800px) {

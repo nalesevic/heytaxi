@@ -3,10 +3,10 @@
   	<div class="d-flex justify-content-center h-100">
   		<div class="card" style="width:400px;">
   			<div class="card-header">
-  				<h3 style="text-align:center;">Sign In</h3>
+  				<h3 style="text-align:center;">Company Sign In</h3>
   			</div>
   			<div class="card-body">
-  				<form id="login_form" action="#" method="POST">
+  				<form id="login_form" action="#" method="POST" style="width:300px; padding-left:30px">
   					<div class="input-group form-group">
   						<div class="input-group-prepend">
   							<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -33,7 +33,7 @@
   			<div class="card-footer">
   				<div class="d-flex justify-content-center links">
   					Don't have an account?
-            <a href="#register">Sign Up</a>
+            <a href="#contact">Contact us</a>
   				</div>
   			</div>
   		</div>
@@ -73,6 +73,14 @@
 
 <script type="text/javascript">
   $("#login_form").validate({
+    messages: {
+      companyEmail: {
+        required: "Please enter email of the company"
+      },
+      companyPassword: {
+        required: "Please enter company password"
+      }
+    },
     submitHandler: function(form) {
         $.ajax({
           url: "rest/login",
@@ -82,7 +90,11 @@
             if(data.token != null) {
               var token = data.token.replace(/['"]+/g, ''); //remove “” from the token
               window.localStorage.setItem('token', token);
-              window.location.href = "company.html#profile";
+              console.log(data.isAdmin);
+              if (data.isAdmin)
+                window.location.href = "admin.html";
+              else
+                window.location.href = "company.html#profile";
             } else {
               $("#error").text("Wrong username or password");
             }

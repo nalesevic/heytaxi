@@ -1,15 +1,15 @@
-<div class="container" style="margin-right: -100px;">
-    <h1 style="font-size:45px;"id="company-title"></h1>
+<div class="container" style="paddging-right: -100px;">
+    <h1 id="company-title" style="color:#d9b23f"></h1>
   	<hr>
 	<div class="row">
       <!-- edit form column -->
       <div class="col-md-9 personal-info">
-        <div class="alert alert-info alert-dismissable">
+        <div class="alert alert-secondary alert-dismissable">
           <a class="panel-close close" data-dismiss="alert">×</a>
-          <i class="fa fa-coffee"></i>
+          <i class="far fa-lightbulb"></i>
           Make sure to click <strong>Save Changes</strong> after you finish
         </div>
-        <h3>Personal info</h3>
+        <h3 style="color:#d9b23f">Personal info</h3>
 
         <form id="update-company-form" class="form-horizontal" action="" method="POST">
           <div class="form-group">
@@ -30,8 +30,14 @@
               <input id="companyEmail" name="companyEmail" class="form-control" type="email">
             </div>
           </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Company Description:</label>
+            <div class="col-lg-8">
+              <textarea type="text" id="description" name="description" rows="3" class="form-control md-textarea"></textarea>
+            </div>
+          </div>
           <br>
-          <h3>Change Password</h3>
+          <h3 style="color:#d9b23f">Change Password</h3>
           <div class="form-group">
             <label class="col-md-3 control-label">New Password:</label>
             <div class="col-md-8">
@@ -47,7 +53,7 @@
           <div class="form-group">
             <label class="col-md-3 control-label"></label>
             <div class="col-md-8">
-              <button onclick="update_company()" type="submit" class="btn btn-primary"> Save Changes</button>
+              <button onclick="update_company()" type="submit" class="btn btn-outline-primary"> Save Changes</button>
             </div>
           </div>
         </form>
@@ -57,6 +63,7 @@
 <hr>
 
 <script type="text/javascript">
+  getCompanyInfo();
   function getCompanyInfo() {
     $.ajax({
       type: "GET",
@@ -71,6 +78,7 @@
         $("#companyID").val(data.companyID);
         $("#companyName").val(data.companyName);
         $("#companyEmail").val(data.companyEmail);
+        $("#description").val(data.description);
         $("#company-title").text(data.companyName);
       }
     })
@@ -93,8 +101,8 @@
           type: "POST",
           data: $("#update-company-form").serialize(),
           success: function(data) {
+            alert("Company profile updated");
             getCompanyInfo();
-            location.reload();
           }
         })
       }

@@ -1,0 +1,96 @@
+body {
+  background:url("assets/img/admin-background.jpg") !important;
+  background-size: cover !important;
+}
+
+#login-side {
+  margin-left: 60px;
+  float: left;
+}
+
+#table-side {
+  margin-left: 300px;
+  float:right;
+}
+
+#company-body {
+  display: inline-inline-grid;
+}
+
+.container{
+  height: 100%;
+  align-content: center;
+  float: left;
+  width: 300px;
+}
+
+.card{
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: rgba(0,0,0,0.7) !important;
+  float: left;
+}
+
+.reg{
+  margin-top: 110px;
+}
+
+.card-header h3{
+  color: white;
+}
+
+
+.input-group-prepend span{
+  width: 50px;
+  background-color: #FFC312;
+  color: black;
+  border:0 !important;
+}
+
+input:focus{
+x-shadow: 0 0 0 0 !important;
+
+}
+
+.remember{
+  color: white;
+}
+
+.remember input{
+  width: 20px;
+  height: 20px;
+  margin-left: 15px;
+  margin-right: 5px;
+}
+
+.login_btn{
+  color: black;
+  background-color: #FFC312;
+  width: 100px;
+}
+
+.login_btn:hover{
+  color: black;
+  background-color: white;
+}
+
+.links{
+  color: white;
+}
+
+.links a{
+  margin-left: 4px;
+}
+
+.centered-form{
+	margin-top: 60px;
+}
+
+.centered-form .panel{
+	background: rgba(255, 255, 255, 0.8);
+	box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+}
+
+label.error {
+   color: yellow;
+}​

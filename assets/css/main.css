@@ -138,7 +138,6 @@ td{
 }
 
 .card{
-  height: 370px;
   margin-top: auto;
   margin-bottom: auto;
   margin-right: 500px;
@@ -154,6 +153,9 @@ td{
   color: white;
 }
 
+.list-group-item {
+    background-color: rgba(0,0,0,0.5) !important;
+}
 
 .input-group-prepend span{
   width: 50px;
@@ -278,11 +280,18 @@ nav ul li { display:block; float:left; width:150px; text-align:center; font-size
 nav ul li a { color:white;}
 
 main#spapp > section { padding:40px 50px 50px 50px;); }
-main#spapp > section#welcome { background: url("https://stmed.net/sites/default/files/taxi-wallpapers-32597-6593302.jpg") 0px; no-repeat;
+main#spapp > section#welcome { background: url('../img/welcome-background.jpg') 0px; no-repeat;
                             background-size:cover;}
-main#spapp > section#companies {background:url("https://c8.alamy.com/comp/B20074/nyc-yellow-taxi-cab-parked-on-the-street-of-queens-nyc-usa-B20074.jpg")}
-main#spapp > section#service {background:)}
-main#spapp > section#register{background: url("https://backgroundcheckall.com/wp-content/uploads/2017/12/about-us-background-images-for-website-2.jpg");background-size:cover;}
+main#spapp > section#companies {background:url("../img/company-background.jpg"); background-size:cover; line-height: 1;}
+main#spapp > section#service {
+  line-height: 1;
+  background-image: url('../img/client-background.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+)}
+main#spapp > section#contact { background: url('../img/contact-background.jpg') 0px; no-repeat;
+                            background-size:cover;
+                            color: #d9b23f;}
 main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
 
 /*responsive*/
@@ -306,6 +315,11 @@ main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
     color: yellow;
     text-decoration: none;
     font-size: 14px;
+  }
+
+  .best_drivers {
+    margin-left: 0px;
+    width: 70%
   }
 
   .remember input {
@@ -368,11 +382,6 @@ main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
     width: 100px;
     margin-left: 320px;
     float: left;
-  }
-
-  .service-head {
-    font-size: 45px;
-    margin-top: 40px;
   }
 
   #curr {

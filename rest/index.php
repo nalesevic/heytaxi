@@ -17,28 +17,39 @@ Flight::route('POST /register', function(){
     'companyEmail' => $request->data->companyEmail,
     'companyPassword' => $request->data->companyPassword
   ];
-  //Flight::json($company);
-  Flight::pm()->register($company);
-  header("Location: ../index.html");
+  $dbResponse = Flight::pm()->register($company);
+  Flight::json($dbResponse);
  });
 
 Flight::route('POST /login', function(){
   $data = Flight::request()->data->getData();
-  $user = Flight::pm()->get_company($data);
-  if($user["status"] == "success") {
-    unset($user["companyPassword"]);
-    unset($user["status"]);
+  $isAdmin = Flight::pm()->get_admin($data);
+  if($isAdmin["status"] == "success") {
     $token = array(
-      "user" => $user,
-      'bele' => 'levat',
+      "isAdmin" => "admin",
       "iat" => time(),
       "exp" => time() + 2592000
     );
     $jwt = JWT::encode($token, CONFIG::JWT_SECRET);
     $user["token"] = $jwt;
+    $user["isAdmin"] = true;
     Flight::json($user);
   } else {
-      return;
+    $user = Flight::pm()->get_company($data);
+    if($user["status"] == "success") {
+      unset($user["companyPassword"]);
+      unset($user["status"]);
+      $token = array(
+        "user" => $user,
+        "iat" => time(),
+        "exp" => time() + 2592000
+      );
+      $jwt = JWT::encode($token, CONFIG::JWT_SECRET);
+      $user["token"] = $jwt;
+      Flight::json($user);
+    } else {
+        return;
+      }
     }
 });
 
@@ -52,6 +63,7 @@ Flight::route('GET /drivers', function(){
   if(isset($data["Authorization"]) && $data["Authorization"] != "null") {
     $jwt = $data["Authorization"];
   } else {
+    echo "No Authorization";
     Flight::redirect('index.html');
     return;
   }
@@ -77,8 +89,8 @@ Flight::route('POST /add_driver', function(){
     $driver = [
       'firstName' => $request['fname'],
       'lastName' => $request['lname'],
-      'vehicle' => $request['vehicle'],
-      'company' => $companyID
+      'vehicleID' => $request['vehicleID'],
+      'companyID' => $companyID
     ];
     $status = Flight::pm()->add_driver($driver);
     Flight::json($status);
@@ -119,6 +131,25 @@ Flight::route('GET /vehicles', function(){
   }
 },true);
 
+Flight::route('GET /available_vehicles', function(){
+  $data = apache_request_headers();
+  if(isset($data["Authorization"]) && $data["Authorization"] != "null") {
+    $jwt = $data["Authorization"];
+  } else {
+    Flight::redirect('index.html');
+    return;
+  }
+  $decoded = JWT::decode($jwt, CONFIG::JWT_SECRET, array("HS256")); // decode jwt
+  $decoded = json_decode(json_encode($decoded), true); // get json
+  if(!isset($decoded['user']['companyID'])) {  // if there is no id of user (jwt is not valid) stop request
+    echo "Invalid token";
+    header("Location: ../index.html#welcome");
+  } else {
+    $vehicles = Flight::pm()->get_available_vehicles($decoded["user"]["companyID"]);
+    Flight::json($vehicles);
+  }
+},true);
+
 Flight::route('POST /add_vehicle', function(){
   $request = Flight::request()->data->getData();
   $data = apache_request_headers();
@@ -149,12 +180,12 @@ Flight::route('POST /vehicle/@id', function($id){
 });
 
 Flight::route('DELETE /vehicle/@id', function($id){
-     Flight::pm()->delete_vehicle($id);
+     $status = Flight::pm()->delete_vehicle($id);
+     Flight::json($status);
 });
 
-Flight::route('/companies', function(){
-  $companies = Flight::pm()->get_all_companies();
-  Flight::json($companies);
+Flight::route('DELETE /company/@id', function($id){
+     Flight::pm()->delete_company($id);
 });
 
 Flight::route('GET /company', function(){
@@ -174,6 +205,28 @@ Flight::route('GET /company', function(){
     $company = Flight::pm()->get_company_byID($decoded["user"]["companyID"]);
     Flight::json($company);
   }
+});
+
+Flight::route('GET /admin', function(){
+    $data = apache_request_headers();
+    if(isset($data["Authorization"]) && $data["Authorization"] != "null") {
+      $jwt = $data["Authorization"];
+    } else {
+      return error;
+    }
+    $decoded = JWT::decode($jwt, CONFIG::JWT_SECRET, array("HS256"));
+    $decoded = json_decode(json_encode($decoded), true);
+    if(!isset($decoded['isAdmin'])) {
+      echo "Invalid token";
+      return error;
+    } else {
+      Flight::json("ok");
+    }
+});
+
+Flight::route('GET /companies', function(){
+    $companies = Flight::pm()->get_all_companies();
+    Flight::json($companies);
 });
 
 Flight::route('POST /companies/@id', function($id){

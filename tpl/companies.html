@@ -1,26 +1,30 @@
-<br><br><br><br>
-<div class="company_cards">
-  <div class="card-deck">
-    <div class="card">
-      <img class="card-img-top" src="assets/img/sarajevo.jpg" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title" style="color: white" >Sarajevo Taxi</h5>
-        <p class="card-text" style="color: white">Udruženje taxi vozača u Sarajevu osnovano je 1946. godine. U periodu od osnivanja do danas izvršeno je nekoliko</p>
-      </div>
-    </div>
-    <div class="card">
-      <img class="card-img-top" src="assets/img/sarajevo.jpg" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title" style="color: white">Sarajevo Taxi</h5>
-        <p class="card-text" style="color: white" >Udruženje taxi vozača u Sarajevu osnovano je 1946. godine. U periodu od osnivanja do danas izvršeno je nekoliko</p>
-      </div>
-    </div>
-    <div class="card">
-      <img class="card-img-top" src="assets/img/sarajevo.jpg" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title" style="color: white" >Sarajevo Taxi</h5>
-        <p class="card-text" style="color: white" >Udruženje taxi vozača u Sarajevu osnovano je 1946. godine. U periodu od osnivanja do danas izvršeno je nekoliko</p>
-      </div>
-    </div>
+<div class="title">
+  OUR CLIENTS
 </div>
+<div class="card-deck" style="color:white">
+<div id="company_cards">
+  </div>
 </div>
+
+<script type="text/javascript">
+  getCompanies();
+  function getCompanies() {
+    $.ajax({
+          url: 'http://localhost/heytaxi/rest/companies',
+          method: 'GET',
+          success: function (data) {
+            html = "";
+            for (let i = 0; i < data.length; i++) {
+              html += '<div class="card" style="width: 18rem;margin-top:20px;"><div class="card-body">'
+              html += '<h5 class="card-title" style="color:#d9b23f;  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; text-align:center">'+data[i].companyName+'</h5></div>'
+              html += '<ul class="list-group list-group-flush"><li class="list-group-item" style="color:white" >'+data[i].description+'</li>'
+              html += '<ul class="card-footer" style="color:#d9b23f; text-align:center">'+data[i].companyEmail+'</div>'
+            }
+            $("#company_cards").html(html);
+          },
+          error: function (error) {
+            console.log("Error occured while fetching companies");
+          }
+        })
+  }
+</script>

@@ -8,7 +8,7 @@ $(document).ready(function() {
 
   app.route({view: 'service', load: 'service.html' });
   app.route({view: 'welcome', load: 'welcome.html' });
-  app.route({view: 'register', load: 'register.html' });
+  app.route({view: 'contact', load: 'contact.html' });
   app.route({view: 'companies', load: 'companies.html' });
   // run app
   app.run();
