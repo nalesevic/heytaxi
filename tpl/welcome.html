@@ -43,12 +43,12 @@
 <div class="info">
   <h1 id="curr">Currently in Sarajevo</h1>
   <div class="drivers_using">
-    <p>422</p>
+    <p id="driverNum"></p>
     <h2 class="with_app">TAXI drivers with this app</h2>
   </div>
   <div class="rides_done">
-    <p>4213</p>
-    <h2>Number of rides today</h2>
+    <p id="rideNum"></p>
+    <h2>Number of rides</h2>
   </div>
 </div>
 <div class="download_app">
@@ -72,6 +72,27 @@
 </footer>
 
 <script type="text/javascript">
+
+  $.ajax({
+    url: "rest/driver_count",
+    method: "GET",
+    success: function(data) {
+        $("#driverNum").text(data.driverNum);
+    },
+    error: function(response) {
+    }
+  });
+
+  $.ajax({
+    url: "rest/ride_count",
+    method: "GET",
+    success: function(data) {
+        $("#rideNum").html(data.rideNum);
+    },
+    error: function(response) {
+    }
+  });
+
   $("#login_form").validate({
     messages: {
       companyEmail: {
@@ -96,7 +117,7 @@
               else
                 window.location.href = "company.html#profile";
             } else {
-              $("#error").text("Wrong username or password");
+              $("#error").text("Wrong email or password");
             }
           },
           error: function(response) {

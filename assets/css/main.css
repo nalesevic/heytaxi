@@ -76,6 +76,7 @@ img {
 }
 
 .info{
+  padding-top: 40px;
   margin-left: 140px;
   margin-right: 140px;
 }
@@ -295,31 +296,45 @@ main#spapp > section#contact { background: url('../img/contact-background.jpg') 
 main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
 
 /*responsive*/
- @media only screen and (max-width: 800px) {
+ @media only screen and (max-width: 400px) {
   a:active {
     font-size: 1px;
   }
   nav {
-  	width: 100%;
+  	max-width: 360px;
   }
 
   nav ul {
-    width: 430px;
+    width: 500px;
   }
 
   nav ul li {
     font-size: 12px;
-    width: 22%;
+    width: 18%;
   }
   nav a:hover{
     color: yellow;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 13px;
+  }
+
+  nav a:active{
+    color: yellow;
+    text-decoration: none;
+    font-size: 13px;
+  }
+
+  #login_form {
+    padding-right: 60px;
   }
 
   .best_drivers {
     margin-left: 0px;
     width: 70%
+  }
+
+  .service-head {
+    font-size: 30px !important;
   }
 
   .remember input {
@@ -387,9 +402,13 @@ main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
   #curr {
     font-size: 25px;
     font-weight: 300;
-    margin-top: 100px;
+    margin-top: -45px;
     margin-left: -20px;
     width: 300px;
+  }
+
+  #rideNum {
+    padding-left: 18px;
   }
 
   .drivers_using p {
@@ -451,6 +470,7 @@ main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
   }
 
   table {
+    width: 40px;
     font-size: 10px;
   }
 
@@ -466,6 +486,10 @@ main#spapp > section#error_404 { background:#b71c1c; color:#fff; }
 
   .card-deck .card-body {
     margin-left: 0px;
+  }
+
+  .mobTable {
+    margin-left: -54px !important;
   }
 
   main#spapp > section#companies {

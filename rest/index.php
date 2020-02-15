@@ -12,10 +12,11 @@ Flight::route('/', function(){
 
 Flight::route('POST /register', function(){
   $request = Flight::request();
+  $pwHash = password_hash($request->data->companyPassword, PASSWORD_BCRYPT);
   $company = [
     'companyName' => $request->data->companyName,
     'companyEmail' => $request->data->companyEmail,
-    'companyPassword' => $request->data->companyPassword
+    'companyPassword' => $pwHash
   ];
   $dbResponse = Flight::pm()->register($company);
   Flight::json($dbResponse);
@@ -86,12 +87,13 @@ Flight::route('POST /add_driver', function(){
     $decoded = JWT::decode($jwt, CONFIG::JWT_SECRET, array("HS256"));
     $decoded = json_decode(json_encode($decoded), true);
     $companyID = $decoded['user']['companyID'];
+    $pwHash = password_hash($request['password'], PASSWORD_BCRYPT);
     $driver = [
       'firstName' => $request['fname'],
       'lastName' => $request['lname'],
       'vehicleID' => $request['vehicleID'],
       'email' => $request['email'],
-      'password' => $request['password'],
+      'password' => $pwHash,
       'companyID' => $companyID
     ];
     $status = Flight::pm()->add_driver($driver);
@@ -107,6 +109,8 @@ Flight::route('GET /driver/@id', function($id){
 // wont read request data with PUT
 Flight::route('POST /driver/@id', function($id){
   $request = Flight::request()->data->getData();
+  $pwHash = password_hash($request['password'], PASSWORD_BCRYPT);
+  $request["password"] = $pwHash;
   Flight::pm()->update_driver($id, $request);
 });
 
@@ -209,10 +213,10 @@ Flight::route('GET /company', function(){
   }
 });
 
-Flight::route('GET /vehicle_count', function(){
+Flight::route('GET /company/vehicle_count', function(){
   $data = apache_request_headers();
-  if(isset($data["Authorization"]) && $data["Authorization"] != "null") {
-    $jwt = $data["Authorization"];
+    if(isset($data["Authorization"]) && $data["Authorization"] != "null") {
+  $jwt = $data["Authorization"];
   } else {
     Flight::redirect('index.html');
     return;
@@ -228,7 +232,37 @@ Flight::route('GET /vehicle_count', function(){
   }
 });
 
+Flight::route('GET /company/vehicleType_count', function(){
+  $data = apache_request_headers();
+    if(isset($data["Authorization"]) && $data["Authorization"] != "null") {
+  $jwt = $data["Authorization"];
+  } else {
+    Flight::redirect('index.html');
+    return;
+  }
+  $decoded = JWT::decode($jwt, CONFIG::JWT_SECRET, array("HS256"));
+  $decoded = json_decode(json_encode($decoded), true);
+  if(!isset($decoded['user']['companyID'])) {
+    echo "Invalid token";
+    header("Location: ../index.html#welcome");
+  } else {
+    $vehicleNum = Flight::pm()->vehicleType_count($decoded["user"]["companyID"]);
+    Flight::json($vehicleNum);
+  }
+});
+
 Flight::route('GET /driver_count', function(){
+  $driverNum = Flight::pm()->count_all_drivers();
+  Flight::json($driverNum);
+});
+
+Flight::route('GET /ride_count', function(){
+  $rideNum = Flight::pm()->count_all_rides();
+  Flight::json($rideNum);
+});
+
+
+Flight::route('GET /company/driver_count', function(){
   $data = apache_request_headers();
   if(isset($data["Authorization"]) && $data["Authorization"] != "null") {
     $jwt = $data["Authorization"];

@@ -84,7 +84,19 @@ class PersistanceManager{
   }
 
   public function count_all_drivers(){
+    return $this->pdo->query("SELECT COUNT(*) as driverNum FROM driver")->fetch();
+  }
 
+  public function count_all_rides(){
+    return $this->pdo->query("SELECT COUNT(*) as rideNum FROM ride")->fetch();
+  }
+
+  public function vehicleType_count($id){
+    $query = "SELECT vehicleType, COUNT(*) as vehicleTypeNum FROM vehicle WHERE companyID = :id GROUP BY vehicleType";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute(['id' => $id]);
+    $num = $statement->fetchAll();
+    return $num;
   }
 
   public function vehicle_count($id){
@@ -117,6 +129,16 @@ class PersistanceManager{
     $vehicleID = $request["vehicleID"];
     $email = $request["email"];
     $password = $request["password"];
+
+    $query = "Select vehicleID from driver where driverID = :id";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute(["id" => $id]);
+    $vehicle = $statement->fetch();
+
+    $query = "UPDATE vehicle SET available =  1 WHERE vehicleID = ?";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([$vehicle["vehicleID"]]);
+
     if ($password == "") {
       $query = "UPDATE driver SET firstName = :firstName, lastName = :lastName, email = :email, vehicleID = :vehicleID WHERE driverID = :id";
       $statement = $this->pdo->prepare($query);
@@ -126,6 +148,14 @@ class PersistanceManager{
       $statement = $this->pdo->prepare($query);
       $statement->execute(["id" => $id, "firstName" => $firstName, "lastName" => $lastName, "vehicleID" => $vehicleID, "email" => $email, "password" => $password]);
     }
+    $query = "Select vehicleID from driver where driverID = :id";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute(["id" => $id]);
+    $vehicle = $statement->fetch();
+
+    $query = "UPDATE vehicle SET available = 0 WHERE vehicleID = ?";
+    $statement = $this->pdo->prepare($query);
+    $statement->execute([$vehicle["vehicleID"]]);
   }
 
   public function delete_driver($id){
@@ -247,7 +277,7 @@ class PersistanceManager{
     ));
     $response = $stmt->fetch();
     if($response){
-      if ($user["companyPassword"] == $response["companyPassword"]) {
+      if (password_verify($user["companyPassword"], $response["companyPassword"])) {
         $response["status"] = "success";
         return $response;
       } else {
